@@ -10,7 +10,6 @@ export function app(): express.Express {
   const server = express();
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
   const browserDistFolder = resolve(serverDistFolder, '../browser');
-  const assetsDistFolder = resolve(serverDistFolder, '../browser/assets');
   const indexHtml = join(serverDistFolder, 'index.server.html');
 
   const commonEngine = new CommonEngine();
@@ -26,8 +25,8 @@ export function app(): express.Express {
     index: 'index.html',
   }));
 
-  // Serve static files from /browser/assets
-  server.use('/ssr/assets', express.static(assetsDistFolder, {
+  // Serve static files from /browser
+  server.use('/ssr', express.static(browserDistFolder, {
     maxAge: '1y'
   }));
 

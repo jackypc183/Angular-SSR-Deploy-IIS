@@ -24,7 +24,10 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/assets",
+              "src/web.config",
+              "src/server.js"
             ],
             "styles": [
               "src/styles.css"

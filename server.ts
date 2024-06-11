@@ -10,6 +10,7 @@ export function app(): express.Express {
   const server = express();
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
   const browserDistFolder = resolve(serverDistFolder, '../browser');
+  const assetsDistFolder = resolve(serverDistFolder, '../browser/assets');
   const indexHtml = join(serverDistFolder, 'index.server.html');
 
   const commonEngine = new CommonEngine();
@@ -23,6 +24,11 @@ export function app(): express.Express {
   server.get('**', express.static(browserDistFolder, {
     maxAge: '1y',
     index: 'index.html',
+  }));
+
+  // Serve static files from /browser/assets
+  server.use('/ssr/assets', express.static(assetsDistFolder, {
+    maxAge: '1y'
   }));
 
   // All regular routes use the Angular engine

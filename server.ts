@@ -6,7 +6,7 @@ import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
 
 // The Express app is exported so that it can be used by serverless Functions.
-export function app(): express.Express {
+export function app(RelativePath:string|undefined): express.Express {
   const server = express();
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
   const browserDistFolder = resolve(serverDistFolder, '../browser');
@@ -26,7 +26,7 @@ export function app(): express.Express {
   }));
 
   // Serve static files from /browser
-  server.use('/ssr', express.static(browserDistFolder, {
+  server.use(RelativePath??'', express.static(browserDistFolder, {
     maxAge: '1y'
   }));
 
@@ -51,9 +51,10 @@ export function app(): express.Express {
 
 function run(): void {
   const port = process.env['PORT'] || 4000;
-
+  const RelativePath = process.env['RelativePath'];
+  console.log(RelativePath);
   // Start up the Node server
-  const server = app();
+  const server = app(RelativePath);
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });

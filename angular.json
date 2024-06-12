@@ -25,7 +25,6 @@
                 "glob": "**/*",
                 "input": "public"
               },
-              "src/assets",
               "src/web.config",
               "src/server.js"
             ],
